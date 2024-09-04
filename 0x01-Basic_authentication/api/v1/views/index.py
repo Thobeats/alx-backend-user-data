@@ -7,7 +7,7 @@ from typing import Tuple
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def status() -> Response:
+def status() -> str:
     """ GET /api/v1/status
     Return:
       - the status of the API
@@ -16,7 +16,7 @@ def status() -> Response:
 
 
 @app_views.route('/stats/', strict_slashes=False)
-def stats() -> Response:
+def stats() -> str:
     """ GET /api/v1/stats
     Return:
       - the number of each objects
