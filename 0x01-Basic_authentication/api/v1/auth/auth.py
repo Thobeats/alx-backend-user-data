@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" 
+"""
 Auth module
 """
 from flask import request
@@ -15,7 +15,7 @@ class Auth:
         """Require authentication
            checks if a path is in the list of excluded paths
         """
-        
+
         if path is None or excluded_paths is None or excluded_paths == []:
             return True
         if path[-1] != '/':
