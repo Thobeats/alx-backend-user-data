@@ -1,74 +1,42 @@
-# Basic Authentication
+# Simple API
 
-This is a guide on implementing basic authentication in your application.
+Simple HTTP API for playing with `User` model.
 
-## Table of Contents
-- [Introduction](#introduction)
-- [How Basic Authentication Works](#how-basic-authentication-works)
-- [Implementing Basic Authentication](#implementing-basic-authentication)
-- [Security Considerations](#security-considerations)
-- [Conclusion](#conclusion)
 
-## Introduction
-Basic authentication is a simple and widely used method for authenticating users in web applications. It involves sending the user's credentials (username and password) with each request to the server.
+## Files
 
-## How Basic Authentication Works
-When a user tries to access a protected resource, the server responds with a `401 Unauthorized` status code and includes a `WWW-Authenticate` header in the response. The client then prompts the user to enter their credentials, which are then sent to the server in subsequent requests using the `Authorization` header.
+### `models/`
 
-## Implementing Basic Authentication
-To implement basic authentication in your application, you need to:
-1. Set up a user database or user management system.
-2. Validate the user's credentials on each request.
-3. Return the appropriate response based on the authentication status.
+- `base.py`: base of all models of the API - handle serialization to file
+- `user.py`: user model
 
-```python
-from flask import Flask, request, jsonify
-from functools import wraps
+### `api/v1`
 
-app = Flask(__name__)
+- `app.py`: entry point of the API
+- `views/index.py`: basic endpoints of the API: `/status` and `/stats`
+- `views/users.py`: all users endpoints
 
-# Decorator to enforce basic authentication
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_credentials(auth.username, auth.password):
-            return jsonify({'message': 'Authentication required'}), 401
-        return f(*args, **kwargs)
-    return decorated
 
-# Function to validate user credentials
-def check_credentials(username, password):
-    # Validate the credentials against your user database
-    # ...
-    # Return True if valid, False otherwise
-    return True
+## Setup
 
-# Protected route
-@app.route('/protected')
-@requires_auth
-def protected():
-    return jsonify({'message': 'You are authenticated!'})
-
-if __name__ == '__main__':
-    app.run()
+```
+$ pip3 install -r requirements.txt
 ```
 
-In this example, we define a decorator `requires_auth` that checks the user's credentials using the `check_credentials` function. If the credentials are valid, the request is allowed to proceed; otherwise, a `401 Unauthorized` response is returned.
 
-To use this code, you need to implement the `check_credentials` function to validate the user's credentials against your user database or user management system.
+## Run
 
-Remember to run the Flask application using `app.run()` to start the server.
+```
+$ API_HOST=0.0.0.0 API_PORT=5000 python3 -m api.v1.app
+```
 
-Please note that this is a basic example and you may need to customize it based on your specific requirements and the framework you are using.
 
+## Routes
 
-## Security Considerations
-While basic authentication is simple to implement, it has some security considerations:
-- The credentials are sent with each request, so they should be transmitted over a secure connection (HTTPS).
-- The credentials are base64-encoded, which can be easily decoded. Therefore, it's important to use HTTPS to prevent eavesdropping.
-- Basic authentication does not provide protection against replay attacks or session hijacking. Consider using additional security measures like CSRF tokens or session management.
-
-## Conclusion
-Basic authentication is a straightforward method for authenticating users in web applications. However, it has some security limitations that should be taken into account. Consider using more advanced authentication methods for applications that require stronger security.
-To implement basic authentication in a Python application, you can use a framework like Flask. Here's an example of how to implement basic authentication using Flask:
+- `GET /api/v1/status`: returns the status of the API
+- `GET /api/v1/stats`: returns some stats of the API
+- `GET /api/v1/users`: returns the list of users
+- `GET /api/v1/users/:id`: returns an user based on the ID
+- `DELETE /api/v1/users/:id`: deletes an user based on the ID
+- `POST /api/v1/users`: creates a new user (JSON parameters: `email`, `password`, `last_name` (optional) and `first_name` (optional))
+- `PUT /api/v1/users/:id`: updates an user based on the ID (JSON parameters: `last_name` and `first_name`)
