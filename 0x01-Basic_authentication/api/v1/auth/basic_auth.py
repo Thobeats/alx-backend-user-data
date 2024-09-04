@@ -47,9 +47,9 @@ class BasicAuth(Auth):
                                 ) -> (str, str):
         """Extract user credentials
         """
-        if decoded_base64_authorization_header is None or type(
-                                                decoded_base64_authorization_header
-                                                ) is not str:
+        if decoded_base64_authorization_header is None:
+            return (None, None)
+        if type(decoded_base64_authorization_header) is not str:
             return (None, None)
         if ':' not in decoded_base64_authorization_header:
             return (None, None)
