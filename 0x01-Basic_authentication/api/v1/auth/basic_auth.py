@@ -6,6 +6,7 @@ from flask import request
 from typing import List, TypeVar
 import re
 from api.v1.auth.auth import Auth
+from base64 import b64decode
 
 
 class BasicAuth(Auth):
@@ -36,8 +37,7 @@ class BasicAuth(Auth):
                                                 ) is not str:
             return None
         try:
-            return base64_authorization_header.encode('utf-8').decode(
-                'base64')
+            return b64decode(base64_authorization_header).decode('utf-8')
         except Exception:
             return None
 
