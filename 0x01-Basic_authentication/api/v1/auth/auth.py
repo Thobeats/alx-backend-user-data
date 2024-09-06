@@ -21,9 +21,13 @@ class Auth:
         if path[-1] != '/':
             path += '/'
         for p in excluded_paths:
-            if p[-1] != '*':
-                p += '*'
-            if re.match(p, path):
+            if p[-1] == '*':
+                if re.match(p[:-1], path):
+                    return False
+
+            if p[-1] != '/':
+                p += '/'
+            if re.match(path, p):
                 return False
         return True
 
