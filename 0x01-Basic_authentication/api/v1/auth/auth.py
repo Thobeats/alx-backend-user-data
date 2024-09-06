@@ -23,7 +23,7 @@ class Auth:
         for p in excluded_paths:
             if p[-1] != '*':
                 p += '*'
-            if re.match(path, p):
+            if re.match(p, path):
                 return False
         return True
 
