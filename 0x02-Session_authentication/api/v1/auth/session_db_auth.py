@@ -6,6 +6,7 @@ from uuid import uuid4
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from os import getenv
 from models.user_session import UserSession
+from datetime import datetime, timedelta
 
 
 class SessionDBAuth(SessionExpAuth):
@@ -25,6 +26,7 @@ class SessionDBAuth(SessionExpAuth):
         session_id = str(uuid4())
         user_session = UserSession(user_id=user_id, session_id=session_id)
         user_session.save()
+        self.user_id_by_session_id[session_id] = user_session
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
@@ -35,7 +37,14 @@ class SessionDBAuth(SessionExpAuth):
         session = UserSession.search({'session_id': session_id})
         if not session:
             return None
-        return session[0].user_id
+        if self.session_duration <= 0:
+            return session[0].user_id
+        user_session = session[0]
+        expired_time = user_session.created_at + \
+            timedelta(seconds=self.session_duration)
+        if expired_time < datetime.utcnow():
+            return None
+        return user_session.user_id
 
     def destroy_session(self, request=None):
         """Destroy session
@@ -48,5 +57,5 @@ class SessionDBAuth(SessionExpAuth):
         session = UserSession.search({'session_id': session_cookie})
         if not session:
             return False
-        UserSession.delete(session[0].id)
+        session[0].remove()
         return True
