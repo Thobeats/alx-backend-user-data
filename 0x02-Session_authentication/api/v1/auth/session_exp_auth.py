@@ -2,8 +2,6 @@
 """
 Session Expiry Auth module
 """
-from uuid import uuid4
-from models.user import User
 from api.v1.auth.session_auth import SessionAuth
 from os import getenv
 from datetime import datetime
