@@ -12,7 +12,7 @@ from datetime import datetime
 class SessionExpAuth(SessionAuth):
     """SessionExpAuth class
     """
-    
+
     def __init__(self):
         """Overloads the __init__ method of SessionAuth class"""
         super().__init__()
@@ -48,4 +48,3 @@ class SessionExpAuth(SessionAuth):
         if total_time < datetime.now().timestamp():
             return None
         return session_dictionary.get("user_id")
-        
