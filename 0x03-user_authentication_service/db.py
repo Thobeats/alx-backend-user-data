@@ -14,6 +14,13 @@ from user import Base, User
 class DB:
     """DB class
     """
+    data_types = {
+        "id": int,
+        "email": str,
+        "hashed_password": str,
+        "session_id": str,
+        "reset_token": str
+    }
 
     def __init__(self) -> None:
         """Initialize a new DB instance
@@ -48,3 +55,14 @@ class DB:
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+        Update a user
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if type(value) is not self.data_types.get(key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
