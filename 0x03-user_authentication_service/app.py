@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Flask App"""
-from flask import Flask, jsonify, Response, request, abort, redirect
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
@@ -9,7 +9,7 @@ AUTH = Auth()
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
-def hello() -> Response:
+def hello():
     """GET /
     Return: welcome message
     """
@@ -17,7 +17,7 @@ def hello() -> Response:
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def users() -> tuple[Response, int]:
+def users():
     """POST /users
     Register a user
     Return: user data
@@ -32,7 +32,7 @@ def users() -> tuple[Response, int]:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login() -> str:
+def login():
     """POST /sessions
     Log in a user
     Return: session_id
@@ -48,7 +48,7 @@ def login() -> str:
 
 
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
-def logout() -> Response:
+def logout():
     """DELETE /sessions
     Log out a user
     Return: message
