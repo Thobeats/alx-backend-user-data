@@ -56,13 +56,11 @@ class Auth:
         """
         Get a user from a session ID
         """
-        if not session_id:
-            return None
         try:
             user = self._db.find_user_by(session_id=session_id)
+            return user
         except NoResultFound:
             return None
-        return user
 
 
 def _generate_uuid() -> str:
