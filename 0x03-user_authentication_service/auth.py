@@ -49,7 +49,7 @@ class Auth:
         """
         Create a session
         """
-        session_id = self.___generate_uuid()
+        session_id = self._generate_uuid()
         try:
             user = self._db.find_user_by(email=email)
             user.session_id = session_id
