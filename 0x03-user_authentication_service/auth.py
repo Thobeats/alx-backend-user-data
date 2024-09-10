@@ -27,50 +27,6 @@ class Auth:
             pass
         return self._db.add_user(email, _hash_password(password))
 
-    def valid_login(self, email: str, password: str) -> bool:
-        """Validate login Credentials"""
-        try:
-            user = self._db.find_user_by(email=email)
-            if not user:
-                return False
-            return bcrypt.checkpw(bytes(password, 'utf-8'),
-                                  user.hashed_password)
-        except NoResultFound:
-            pass
-        return False
-
-    def create_session(self, email: str) -> str:
-        """
-        Create a session
-        """
-        session_id = _generate_uuid()
-        try:
-            user = self._db.find_user_by(email=email)
-            self._db.update_user(user.id, session_id=session_id)
-            return session_id
-        except NoResultFound:
-            return None
-
-    def get_user_from_session_id(self, session_id: str) -> User | None:
-        """
-        Get a user from a session ID
-        """
-        try:
-            user = self._db.find_user_by(session_id=session_id)
-            return user
-        except NoResultFound:
-            return None
-
-    def destroy_session(self, session_id: str) -> None:
-        """
-        Destroy a session
-        """
-        try:
-            user = self._db.find_user_by(session_id=session_id)
-            self._db.update_user(user.id, session_id=None)
-        except NoResultFound:
-            return None
-
 
 def _generate_uuid() -> str:
     """
