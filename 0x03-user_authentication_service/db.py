@@ -60,8 +60,11 @@ class DB:
         Update a user
         """
         user = self.find_user_by(id=user_id)
+        allowable_keys = [
+            "id", "email", "hashed_password", "session_id", "reset_token"
+        ]
         for key, value in kwargs.items():
-            if type(value) is not self.data_types.get(key):
+            if key not in allowable_keys:
                 raise ValueError
             setattr(user, key, value)
         self._session.commit()
