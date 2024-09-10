@@ -39,7 +39,7 @@ class Auth:
             pass
         return False
 
-    def _generate_uuid(self) -> str:
+    def ___generate_uuid(self) -> str:
         """
         Generate a UUID
         """
@@ -49,7 +49,7 @@ class Auth:
         """
         Create a session
         """
-        session_id = self._generate_uuid()
+        session_id = self.___generate_uuid()
         try:
             user = self._db.find_user_by(email=email)
             user.session_id = session_id
