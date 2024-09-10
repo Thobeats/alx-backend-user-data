@@ -39,17 +39,18 @@ class Auth:
             pass
         return False
 
-    def ___generate_uuid(self) -> str:
+    def _generate_uuid(self) -> str:
         """
         Generate a UUID
         """
-        return str(uuid.uuid4())
+        UUID = uuid.uuid4()
+        return str(UUID)
 
     def create_session(self, email: str) -> str:
         """
         Create a session
         """
-        session_id = self.___generate_uuid()
+        session_id = self._generate_uuid()
         try:
             user = self._db.find_user_by(email=email)
             user.session_id = session_id
