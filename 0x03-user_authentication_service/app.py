@@ -32,7 +32,7 @@ def users() -> tuple[Response, int]:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login() -> tuple[Response, int]:
+def login() -> str:
     """POST /sessions
     Log in a user
     Return: session_id
@@ -45,7 +45,7 @@ def login() -> tuple[Response, int]:
     if not session_id:
         abort(401)
     response = jsonify({"email": email, "message": "logged in"})
-    return response.set_cookie(key="session_id", value=session_id), 200
+    return response.set_cookie(key="session_id", value=session_id)
 
 
 if __name__ == "__main__":
