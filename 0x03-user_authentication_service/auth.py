@@ -39,11 +39,21 @@ class Auth:
             pass
         return False
 
-    def __generate_uuid(self) -> str:
+    def _generate_uuid(self) -> str:
         """
         Generate a UUID
         """
         return str(uuid4())
+
+    def create_session(self, email: str) -> str:
+        """
+        Create a session
+        """
+        session_id = self._generate_uuid()
+        user = self._db.find_user_by(email=email)
+        user.session_id = session_id
+        self._db._session.commit()
+        return session_id
 
 
 def _hash_password(password: str) -> bytes:
