@@ -39,40 +39,8 @@ class Auth:
             pass
         return False
 
-    def create_session(self, email: str) -> str:
-        """
-        Create a session
-        """
-        session_id = ___generate_uuid()
-        try:
-            user = self._db.find_user_by(email=email)
-            self._db.update_user(user.id, session_id=session_id)
-            return session_id
-        except NoResultFound:
-            return None
 
-    def get_user_from_session_id(self, session_id: str) -> User | None:
-        """
-        Get a user from a session ID
-        """
-        try:
-            user = self._db.find_user_by(session_id=session_id)
-            return user
-        except NoResultFound:
-            return None
-
-    def destroy_session(self, session_id: str) -> None:
-        """
-        Destroy a session
-        """
-        try:
-            user = self._db.find_user_by(session_id=session_id)
-            self._db.update_user(user.id, session_id=None)
-        except NoResultFound:
-            return None
-
-
-def ___generate_uuid() -> str:
+def _generate_uuid() -> str:
     """
     Generate a UUID
     """
