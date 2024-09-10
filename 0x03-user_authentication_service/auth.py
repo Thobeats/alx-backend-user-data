@@ -61,7 +61,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def destroy_session(self, session_id: str) -> str:
+    def destroy_session(self, session_id: str) -> None:
         """
         Destroy a session
         """
