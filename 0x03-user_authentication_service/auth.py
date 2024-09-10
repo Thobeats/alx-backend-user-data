@@ -39,7 +39,7 @@ class Auth:
             pass
         return False
 
-    def _generate_uuid(self) -> str:
+    def __generate_uuid(self) -> str:
         """
         Generate a UUID
         """
