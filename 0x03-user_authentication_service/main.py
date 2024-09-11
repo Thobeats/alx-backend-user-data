@@ -68,7 +68,7 @@ def log_out(session_id: str) -> None:
     """
     logout_url = f"{url}/sessions"
     response = requests.delete(logout_url,
-                            cookies={"session_id": session_id})
+                               cookies={"session_id": session_id})
     assert response.json()['message'] == "Bienvenue"
 
 
